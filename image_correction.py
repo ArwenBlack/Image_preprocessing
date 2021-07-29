@@ -80,15 +80,15 @@ image = cv2.imread(im_path, cv2.IMREAD_COLOR)
 ratio = image.shape[0] / 500.0
 orig = image.copy()
 image = imutils.resize(image, height=500)
-cv2.imshow("Image", image)
+#cv2.imshow("Image", image)
 image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-cv2.imshow("Gray", image_gray)
+#cv2.imshow("Gray", image_gray)
 image_gray= cv2.GaussianBlur(image_gray, (5, 5), 0)
-cv2.imshow("Gray with blur", image_gray)
+#cv2.imshow("Gray with blur", image_gray)
 edged = cv2.Canny(image_gray, 75, 200)
-cv2.imshow("Edged", edged)
+#cv2.imshow("Edged", edged)
 
-cv2.waitKey(0)
+#cv2.waitKey(0)
 
 contours = cv2.findContours(edged.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 contours = imutils.grab_contours(contours)
@@ -103,15 +103,15 @@ for c in contours:
 
 try:
     cv2.drawContours(image, [imageCnt], -1, (0,255,0),2)
-    cv2.imshow("Contour", image)
+    #cv2.imshow("Contour", image)
     pretty = four_point_transform(orig, imageCnt.reshape(4, 2) * ratio)
 except:
     image1 = cv2.copyMakeBorder(image, 5,5,5,5, cv2.BORDER_CONSTANT, value = [0,255,0])
-    cv2.imshow("Contour", image1)
+    #cv2.imshow("Contour", image1)
     pretty = image
 
 cv2.imwrite("transformed.jpg", pretty)
-cv2.waitKey(0)
+#cv2.waitKey(0)
 
 try:
     newdata=tess.image_to_osd("transformed.jpg")
@@ -121,6 +121,7 @@ try:
     rotated = imutils.rotate_bound(pretty, float(angle))
 except:
     rotated = pretty
+
 
 
 result  = tess.image_to_data(rotated, output_type=tess.Output.DICT)
@@ -147,8 +148,8 @@ while pom <= 4:
     pom+=1
 
 final = cv2.cvtColor(rotated, cv2.COLOR_BGR2GRAY)
-cv2.imshow("Scanned", final)
-cv2.waitKey(0)
+#cv2.imshow("Scanned", final)
+#cv2.waitKey(0)
 cv2.imwrite(im_path[:-3] + "_corrected.jpg", final)
 
 # final_edit = final
